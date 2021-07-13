@@ -68,6 +68,14 @@ rs_replace_table = function(
     split_files = splitDetermine(dbcon, numRows, as.numeric(object.size(df[1,])))
   }
   split_files = pmin(split_files, numRows)
+  
+  # Set env variables for S3 upload
+  Sys.setenv(
+    'AWS_DEFAULT_REGION'=region,
+    'AWS_ACCESS_KEY_ID'=access_key,
+    'AWS_SECRET_ACCESS_KEY'=secret_key,
+    'AWS_IAM_ROLE_ARN'=iam_role_arn
+  )
 
   # Upload data to S3
   prefix = uploadToS3(df, bucket, split_files, access_key, secret_key, session_token, region)

@@ -109,7 +109,9 @@ s3ToRedshift = function(dbcon, table_name, bucket, prefix, region, access_key, s
       # creds string now includes a token in case it is needed.
         if (session != '') {
           credsStr = sprintf("credentials 'aws_access_key_id=%s;aws_secret_access_key=%s;token=%s'", access_key, secret_key, session)
-        } else {
+        } else if (nchar(session) > 0){
+          credsStr = sprintf("credentials 'aws_access_key_id=%s;aws_secret_access_key=%s;token=%s'", access_key, secret_key, session)
+        }  else {
           credsStr = sprintf("credentials 'aws_access_key_id=%s;aws_secret_access_key=%s'", access_key, secret_key)
         }
     }
